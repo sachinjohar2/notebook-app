@@ -19,7 +19,7 @@ public class Notebook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column
     private String title;
@@ -49,11 +49,11 @@ public class Notebook {
 
     public Notebook(){}
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

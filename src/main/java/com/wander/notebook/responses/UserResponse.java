@@ -4,7 +4,7 @@ import com.wander.notebook.model.User;
 
 public class UserResponse {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String username;
 
@@ -14,11 +14,11 @@ public class UserResponse {
         this.username = user.getUsername();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

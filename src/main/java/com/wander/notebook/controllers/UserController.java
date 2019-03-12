@@ -2,6 +2,8 @@ package com.wander.notebook.controllers;
 
 import com.wander.notebook.model.User;
 import com.wander.notebook.repositories.UserRepository;
+import com.wander.notebook.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,18 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public UserController(final UserRepository userRepository, final BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/sign-up")
     public void signUp(@RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userService.save(user);
     }
 }
 

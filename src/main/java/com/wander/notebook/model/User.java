@@ -22,7 +22,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "username" , unique = true)
     private String username;
@@ -42,7 +42,7 @@ public class User {
     @JsonIgnore
     Set<Notebook> notebooks;
 
-    public User(final Integer id, final String username, final String name, final String email) {
+    public User(final Long id, final String username, final String name, final String email) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -75,11 +75,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

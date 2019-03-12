@@ -14,6 +14,10 @@ public class NotebookService {
     @Autowired
     private NotebookRepository notebookRepository;
 
+    public NotebookService(NotebookRepository notebookRepository){
+        this.notebookRepository = notebookRepository;
+    }
+
     public void save(Notebook notebook){
         notebookRepository.save(notebook);
     }

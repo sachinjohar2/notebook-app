@@ -29,9 +29,13 @@ public class NotebookController {
     private UserService userService;
 
 
-    @PostMapping
-    public void addNotebook(@RequestBody List<Notebook> notebook){
-        notebookService.saveAll(notebook);
+    @PostMapping("/user/{username}")
+    public void addNotebook(@PathVariable String username, @RequestBody List<Notebook> notebooks){
+        User user = userService.findByUsername(username);
+        for(Notebook notebook : notebooks){
+            notebook.setUserId(user);
+        }
+        notebookService.saveAll(notebooks);
     }
 
     @GetMapping
@@ -49,7 +53,7 @@ public class NotebookController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteNotbook(@PathVariable long id){
+    public void deleteNotebook(@PathVariable long id){
         Notebook notebookToDelete = notebookService.findById(id);
         notebookService.deleteNotebook(notebookToDelete);
     }

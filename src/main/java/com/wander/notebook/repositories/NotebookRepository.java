@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NotebookRepository extends JpaRepository<Notebook, Integer> {
 
-    public List<Notebook> findByUserId(User user);
+    List<Notebook> findByUserId(User user);
 
     Notebook findById(long id);
 }
