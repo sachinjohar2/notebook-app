@@ -9,7 +9,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -45,10 +44,10 @@ public class UserControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users/sign-up")
                                                               .accept(MediaType.APPLICATION_JSON)
                                                               .content("{ \"id\":\"1\",\n"
-                                                                       + "\t\"username\":\"sachin\",\n"
-                                                                       + "\t\"name\":\"sachinjohar\",\n"
-                                                                       + "\t\"email\":\"sachin@gmail.com\",\n"
-                                                                       + "\t\"password\":\"sachin\"}")
+                                                                       + "\t\"username\":\"bob\",\n"
+                                                                       + "\t\"name\":\"bob\",\n"
+                                                                       + "\t\"email\":\"bob@gmail.com\",\n"
+                                                                       + "\t\"password\":\"password\"}")
                                                               .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
