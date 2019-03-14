@@ -32,7 +32,7 @@ public class NotebookController {
 
 
     @PostMapping("/user/{username}")
-    public void addNotebook(@PathVariable String username, @RequestBody List<Notebook> notebooks){
+    public List<Notebook> addNotebook(@PathVariable String username, @RequestBody List<Notebook> notebooks){
         User user = userService.findByUsername(username);
         if(user == null){
             throw new IllegalArgumentException("Failed to find user with username "+ username + " passed as argument");
@@ -40,7 +40,7 @@ public class NotebookController {
         for(Notebook notebook : notebooks){
             notebook.setUserId(user);
         }
-        notebookService.saveAll(notebooks);
+        return notebookService.saveAll(notebooks);
     }
 
     @GetMapping
@@ -53,11 +53,11 @@ public class NotebookController {
     }
 
     @PutMapping({"/{id}"})
-    public void editNotebook(@PathVariable long id, @RequestBody Notebook notebook){
+    public Notebook editNotebook(@PathVariable long id, @RequestBody Notebook notebook){
         Notebook existingNotebook = notebookService.findById(id);
         Assert.notNull(existingNotebook, "Notebook not found");
         existingNotebook.setDescription(notebook.getDescription());
-        notebookService.save(existingNotebook);
+        return notebookService.save(existingNotebook);
     }
 
     @DeleteMapping("/{id}")
