@@ -34,6 +34,9 @@ public class NotebookController {
     @PostMapping("/user/{username}")
     public void addNotebook(@PathVariable String username, @RequestBody List<Notebook> notebooks){
         User user = userService.findByUsername(username);
+        if(user == null){
+            throw new IllegalArgumentException("Failed to find user with username "+ username + " passed as argument");
+        }
         for(Notebook notebook : notebooks){
             notebook.setUserId(user);
         }
@@ -43,6 +46,9 @@ public class NotebookController {
     @GetMapping
     public List<Notebook> getNotebook(@RequestParam String username) {
         User user = userService.findByUsername(username);
+        if(user == null){
+            throw new IllegalArgumentException("Failed to find user with username "+ username + " passed as argument");
+        }
         return notebookService.findByUser(user);
     }
 
@@ -57,6 +63,7 @@ public class NotebookController {
     @DeleteMapping("/{id}")
     public void deleteNotebook(@PathVariable long id){
         Notebook notebookToDelete = notebookService.findById(id);
+        Assert.notNull(notebookToDelete, "Notebook not found");
         notebookService.deleteNotebook(notebookToDelete);
     }
 
