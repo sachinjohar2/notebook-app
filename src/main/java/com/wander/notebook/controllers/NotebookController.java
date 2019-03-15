@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("notebook")
-@CrossOrigin(origins = "http://localhost:1900")
 public class NotebookController {
 
     @Autowired
