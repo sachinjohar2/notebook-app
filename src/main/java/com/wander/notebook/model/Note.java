@@ -9,22 +9,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@Table(name = "notes")
 @Entity
-public class Notebook {
+public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
+    @NotNull
+    @Size(min = 3, max = 255)
     private String title;
 
     @Column
+    @Size(min = 3)
+    @NotNull
     private String description;
 
     @Column
@@ -38,16 +46,16 @@ public class Notebook {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User userId;
+    private User user;
 
-    public Notebook(final String title, final String description, final LocalDateTime creationTime, final LocalDateTime updateTime) {
+    public Note(final String title, final String description, final LocalDateTime creationTime, final LocalDateTime updateTime) {
         this.title = title;
         this.description = description;
         this.creationTime = creationTime;
         this.updateTime = updateTime;
     }
 
-    public Notebook(){}
+    public Note(){}
 
     public Long getId() {
         return id;
@@ -89,11 +97,11 @@ public class Notebook {
         this.updateTime = updateTime;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(final User userId) {
-        this.userId = userId;
+    public void setUser(final User user) {
+        this.user = user;
     }
 }

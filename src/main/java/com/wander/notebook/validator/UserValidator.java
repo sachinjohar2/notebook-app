@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-@Component
+@Component("beforeCreateUserValidator")
 public class UserValidator implements Validator {
 
     @Autowired
@@ -29,6 +29,10 @@ public class UserValidator implements Validator {
         }
         if (userService.findByUsername(user.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
+        }
+
+        if(userService.findByEmail(user.getEmail()) != null){
+            errors.rejectValue("email", "Duplicate.userForm.email");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");

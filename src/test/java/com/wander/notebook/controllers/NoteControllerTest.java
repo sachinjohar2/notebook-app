@@ -3,11 +3,10 @@ package com.wander.notebook.controllers;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-import com.wander.notebook.model.Notebook;
+import com.wander.notebook.model.Note;
 import com.wander.notebook.model.User;
-import com.wander.notebook.services.NotebookService;
+import com.wander.notebook.services.NoteService;
 import com.wander.notebook.services.UserService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +27,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = NotebookController.class, secure = false)
-public class NotebookControllerTest {
+@WebMvcTest(value = NoteController.class, secure = false)
+public class NoteControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private NotebookService notebookService;
+    private NoteService noteService;
 
     @MockBean
     private UserService userService;
@@ -43,14 +42,14 @@ public class NotebookControllerTest {
     @Before
     public void setUp() {
 
-        Notebook notebook = new Notebook("Help Page",
-                                         "This includes help content",
-                                         LocalDateTime.MAX,
-                                         LocalDateTime.MAX);
-        User user = new User(1L, "abhisheksingh", "abhishek", "abhisingh@gmail.com");
+        Note note = new Note("Help Page",
+                             "This includes help content",
+                             LocalDateTime.MAX,
+                             LocalDateTime.MAX);
+        User user = new User( "abhisheksingh", "abhishek", "abhisingh@gmail.com");
         Mockito.when(userService.findByUsername(any())).thenReturn(user);
-        Mockito.when(notebookService.saveAll(any())).thenReturn(Arrays.asList(notebook));
-        Mockito.when(notebookService.findByUser(any())).thenReturn(Arrays.asList(notebook));
+        Mockito.when(noteService.saveAll(any())).thenReturn(Arrays.asList(note));
+        Mockito.when(noteService.findByUser(any())).thenReturn(Arrays.asList(note));
 
     }
 

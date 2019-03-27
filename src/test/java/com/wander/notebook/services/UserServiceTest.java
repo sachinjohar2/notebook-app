@@ -28,7 +28,7 @@ public class UserServiceTest {
         initMocks(this);
         userServiceUnderTest = new UserService(mockUserRepository,
                                                mockBCryptPasswordEncoder);
-        user = new User(1L,"abhisheksingh", "abhishek", "abhisingh@gmail.com");
+        user = new User("abhisheksingh", "abhishek", "abhisingh@gmail.com");
 
         Mockito.when(mockUserRepository.save(any()))
                .thenReturn(user);
