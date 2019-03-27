@@ -5,6 +5,7 @@ import java.util.List;
 import com.wander.notebook.model.User;
 import com.wander.notebook.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,14 @@ public class UserService {
 
 
     public User save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if(userRepository.findByEmail(user.getEmail()) == null &&
+                userRepository.findByUsername(user.getUsername()) == null){
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        return userRepository.save(user);
+            return userRepository.save(user);
+        }
+        return null;
+
     }
 
     public User findByUsername(String username) {

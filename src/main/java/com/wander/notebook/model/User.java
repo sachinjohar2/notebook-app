@@ -10,7 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,32 +23,32 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "username" , unique = true)
+    @NotNull
+    @Size(min = 6, max = 16)
     private String username;
 
     @Column(name = "name")
+    @NotNull
+    @Size(min = 3, max = 65)
     private String name;
 
     @Column(name="email", unique = true)
+    @NotNull
+    @Size(min = 6, max = 255)
     private String email;
 
     @Column
+    @NotNull
     private String password;
 
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("userId")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
     @JsonIgnore
-    Set<Notebook> notebooks;
-
-    public User(final Integer id, final String username, final String name, final String email) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.email = email;
-    }
+    Set<Note> notes;
 
     public User(final String username, final String name, final String email) {
         this.username = username;
@@ -58,12 +59,12 @@ public class User {
     public User() {
     }
 
-    public Set<Notebook> getNotebooks() {
-        return notebooks;
+    public Set<Note> getNotes() {
+        return notes;
     }
 
-    public void setNotebooks(final Set<Notebook> notebooks) {
-        this.notebooks = notebooks;
+    public void setNotes(final Set<Note> notes) {
+        this.notes = notes;
     }
 
 
@@ -75,11 +76,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
