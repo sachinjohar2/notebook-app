@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.wander.notebook.model.User;
 import com.wander.notebook.services.UserService;
-import com.wander.notebook.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
