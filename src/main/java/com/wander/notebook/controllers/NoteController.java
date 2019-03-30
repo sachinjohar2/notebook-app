@@ -1,6 +1,7 @@
 package com.wander.notebook.controllers;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.wander.notebook.services.NoteService;
 import com.wander.notebook.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.FieldError;
@@ -42,7 +44,7 @@ public class NoteController {
 
 
     @PostMapping
-    public Note createNote(@RequestBody @Valid Note note, Authentication authentication){
+    public ResponseEntity<Note> createNote(@RequestBody @Valid Note note, Authentication authentication){
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
@@ -51,30 +53,33 @@ public class NoteController {
         }
 
         note.setUser(user);
-        return noteService.save(note);
+        return new ResponseEntity<>(noteService.save(note), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Note> getUserNotes(Authentication authentication) {
+    public ResponseEntity<List<Note>> getUserNotes(Authentication authentication) {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
 
         if(user == null){
             throw new IllegalArgumentException("Failed to find user with username "+ username + " passed as argument");
         }
-        return noteService.findByUser(user);
+        return new ResponseEntity<>(noteService.findByUser(user), HttpStatus.OK);
     }
 
     @PutMapping({"/{id}"})
-    public Note updateNote(@PathVariable long id, @RequestBody @Valid Note note){
+    public ResponseEntity<Note> updateNote(@PathVariable long id, @RequestBody @Valid Note note){
 
-        return noteService.updateNote(id, note);
+        return new ResponseEntity<>(noteService.updateNote(id, note), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteNote(@PathVariable long id){
-
+    public ResponseEntity<Map<String, Boolean>> deleteNote(@PathVariable long id){
         noteService.deleteNote(id);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted",Boolean.TRUE);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
