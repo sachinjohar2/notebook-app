@@ -3,19 +3,22 @@ package com.wander.notebook.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import com.wander.notebook.model.User;
 import com.wander.notebook.services.UserService;
-import com.wander.notebook.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Generated;
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
@@ -36,7 +39,7 @@ public class UserController {
         if(registeredUser == null){
             return new ResponseEntity<>("Failed to create User", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("User created.", HttpStatus.OK);
+        return new ResponseEntity<>("User created.", HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

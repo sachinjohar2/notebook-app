@@ -21,6 +21,7 @@ public class NoteServiceTest {
     @Mock
     private NoteRepository noteRepository;
 
+    @Mock
     private NoteService noteService;
     private Note note;
 
