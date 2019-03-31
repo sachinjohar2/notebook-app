@@ -32,7 +32,7 @@ public class NoteServiceTest {
 
         note = new Note("Help Page", "This includes help content", LocalDateTime.MAX, LocalDateTime.MAX);
 
-        Mockito.when(noteRepository.findByUserId(any()))
+        Mockito.when(noteRepository.findByUserOrderByUpdateTime(any()))
                .thenReturn(Arrays.asList(note));
 
     }

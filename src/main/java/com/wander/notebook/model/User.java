@@ -42,6 +42,7 @@ public class User {
 
     @Column
     @NotNull
+    @Size(min = 5, max = 65)
     private String password;
 
 
