@@ -3,6 +3,7 @@ package com.wander.notebook.services;
 import com.wander.notebook.model.User;
 import com.wander.notebook.repositories.UserRepository;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -32,14 +33,13 @@ public class UserServiceTest {
 
         Mockito.when(mockUserRepository.save(any()))
                .thenReturn(user);
-        Mockito.when(mockUserRepository.findByEmail(anyString()))
-               .thenReturn(user);
-        Mockito.when(mockUserRepository.findByUsername(anyString()))
-               .thenReturn(user);
+
     }
 
     @Test
     public void testFindUserByEmail() {
+        Mockito.when(mockUserRepository.findByEmail(anyString()))
+               .thenReturn(user);
 
         final User result = userServiceUnderTest.findByEmail("abhisingh@gmail.com");
 
@@ -61,6 +61,10 @@ public class UserServiceTest {
 
     @Test
     public void testFindUserByUsername(){
+
+        Mockito.when(mockUserRepository.findByUsername(anyString()))
+               .thenReturn(user);
+
         final User user = userServiceUnderTest.findByUsername("abhishekSingh");
 
         assertEquals("abhisheksingh", user.getUsername());

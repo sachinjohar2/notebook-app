@@ -1,6 +1,8 @@
 package com.wander.notebook.controllers;
 
 import com.wander.notebook.model.User;
+import com.wander.notebook.services.NoteService;
+import com.wander.notebook.services.UserDetailsServiceImpl;
 import com.wander.notebook.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,9 +33,15 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private NoteService noteService;
+
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
+
     @Before
     public void setUp() {
-        User user = new User("bob", "bob", "bob@gmail.com");
+        User user = new User("bobking", "bob", "bob@gmail.com");
 
         Mockito.when(userService.save(any()))
                .thenReturn(user);
@@ -44,7 +52,7 @@ public class UserControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users/sign-up")
                                                               .accept(MediaType.APPLICATION_JSON)
                                                               .content("{ \"id\":\"1\",\n"
-                                                                       + "\t\"username\":\"bob\",\n"
+                                                                       + "\t\"username\":\"bobking\",\n"
                                                                        + "\t\"name\":\"bob\",\n"
                                                                        + "\t\"email\":\"bob@gmail.com\",\n"
                                                                        + "\t\"password\":\"password\"}")
@@ -54,7 +62,7 @@ public class UserControllerTest {
 
         MockHttpServletResponse response = result.getResponse();
 
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 
     }
 }

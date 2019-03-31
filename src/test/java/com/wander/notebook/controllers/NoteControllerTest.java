@@ -2,11 +2,15 @@ package com.wander.notebook.controllers;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 
 import com.wander.notebook.model.Note;
 import com.wander.notebook.model.User;
 import com.wander.notebook.services.NoteService;
+import com.wander.notebook.services.UserDetailsServiceImpl;
 import com.wander.notebook.services.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,12 +27,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.wander.notebook.security.SecurityConstants.EXPIRATION_TIME;
+import static com.wander.notebook.security.SecurityConstants.SECRET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = NoteController.class, secure = false)
+@WebMvcTest(value = NoteController.class, secure = false    )
 public class NoteControllerTest {
 
     @Autowired
@@ -39,6 +45,9 @@ public class NoteControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
 
     @Before
     public void setUp() {
@@ -58,7 +67,14 @@ public class NoteControllerTest {
     @Test
     public void testGetNotebookByUsername() throws Exception {
 
+        String jwt = Jwts.builder()
+                         .setSubject("user")
+                         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                         .signWith(SignatureAlgorithm.HS512, SECRET)
+                         .compact();
+
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/notebook")
+                                                              .header("Authorization", jwt)
                                                               .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
